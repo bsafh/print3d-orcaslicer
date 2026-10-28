@@ -3,7 +3,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from print3d import blender, studio, windows
+from print3d import blender, orca as studio, windows
 
 
 @pytest.fixture
