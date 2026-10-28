@@ -235,10 +235,14 @@ def cmd_status(_args: argparse.Namespace) -> int:
         blender = str(find_blender())
     except BlenderError as exc:
         blender = f"missing: {exc}"
+    try:
+        _orca = find_orca()
+    except OrcaError:
+        _orca = None
     _print_json(
         {
             "blender": blender,
-            "studio": str(find_orca()),
+            "studio": str(_orca) if _orca else "not found (use OrcaSlicer MCP)",
             "profiles": str(profiles),
             "profiles_present": all(
                 (profiles / name).is_file()

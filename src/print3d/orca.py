@@ -56,11 +56,13 @@ def find_orca(search_path: str | None = None) -> Path:
             "/opt/orcaslicer/orca-slicer",
         ]
     )
+    # Windows OrcaSlicer via WSL is handled by the OrcaSlicer MCP server,
+    # not by the CLI binary discovery.
     for candidate in chain(candidates, orca_locations()):
         path = Path(candidate).expanduser()
         if path.is_file():
             return path.resolve()
-    raise OrcaError("OrcaSlicer CLI not found. Install OrcaSlicer or set ORCA_SLICER_BIN.")
+    raise OrcaError("OrcaSlicer CLI not found. Install OrcaSlicer or set ORCA_SLICER_BIN. Use OrcaSlicer MCP server for slicing instead.")
 
 
 def _common_prefix(studio: Path, request: SliceRequest) -> list[str]:
@@ -215,7 +217,20 @@ def run_slice(
     studio: Path | None = None,
     timeout_s: float = 180,
 ) -> dict[str, Any]:
-    binary = studio or find_orca()
+    try:
+        binary = studio or find_orca()
+    except OrcaError:
+        # OrcaSlicer CLI not available; produce unsliced project for OrcaSlicer MCP
+        return {
+            "dry_run": False,
+            "studio": "not found (use OrcaSlicer MCP)",
+            "output_project_3mf": str(project_3mf_path(request)),
+            "output_3mf": str(request.output_3mf),
+            "note": "OrcaSlicer CLI not found. Use OrcaSlicer MCP server to slice the project 3MF.",
+            "returncode": 0,
+            "stdout": "",
+            "stderr": "",
+        }
     plan = slice_plan(request, studio=binary)
     plan["dry_run"] = False
     request.datadir.mkdir(parents=True, exist_ok=True)
