@@ -21,7 +21,7 @@ from print3d.photo import grid, meet
 from print3d.pipeline import _model_params, run_job
 from print3d.printability import advise, analyze_mesh, analyze_slice, dfm_advice, worst_severity
 from print3d.project import inspect_project
-from print3d.studio import SliceRequest, find_studio, slice_plan
+from print3d.orca import SliceRequest, find_orca, slice_plan
 from print3d.viewer import build_viewer
 
 
@@ -238,13 +238,13 @@ def cmd_status(_args: argparse.Namespace) -> int:
     _print_json(
         {
             "blender": blender,
-            "studio": str(find_studio()),
+            "studio": str(find_orca()),
             "profiles": str(profiles),
             "profiles_present": all(
                 (profiles / name).is_file()
                 for name in ("machine.json", "process.json", "filament.json")
             ),
-            "stops_at": "review in Bambu Studio",
+            "stops_at": "review in OrcaSlicer",
         }
     )
     return 0
@@ -268,7 +268,7 @@ def cmd_plan(args: argparse.Namespace) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="print3d", description="Idea to a reviewable Bambu Studio project for an X2D"
+        prog="print3d", description="Idea to a reviewable OrcaSlicer project for an X2D"
     )
     sub = parser.add_subparsers(dest="cmd", required=True)
 

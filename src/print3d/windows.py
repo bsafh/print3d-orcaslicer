@@ -34,6 +34,9 @@ def blender_locations() -> Iterator[Path]:
         )
 
 
-def studio_locations() -> Iterator[Path]:
+def orca_locations() -> Iterator[Path]:
     for root in program_files_dirs():
-        yield root / "Bambu Studio" / "bambu-studio.exe"
+        yield root / "OrcaSlicer" / "orca-slicer.exe"
+    # Linux paths
+    for path in ("/usr/bin/orca-slicer", "/usr/local/bin/orca-slicer", "/opt/orcaslicer/orca-slicer"):
+        yield Path(path)

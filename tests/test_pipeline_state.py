@@ -10,7 +10,7 @@ from print3d import pipeline
 from print3d.blender import BlenderError
 from print3d.dfm import DfmError
 from print3d.handoff import HandoffError, build_handoff
-from print3d.studio import StudioError
+from print3d.orca import OrcaError
 
 GOLDEN = Path(__file__).parent / "fixtures" / "cube_20mm.gcode.3mf"
 
@@ -45,7 +45,7 @@ def job(tmp_path, monkeypatch, request):
 
     def slice_(request):
         if state["failure"] == "slice":
-            raise StudioError("slice failed")
+            raise OrcaError("slice failed")
         request.output_dir.mkdir(parents=True, exist_ok=True)
         for dest in (request.output_3mf, request.output_project_3mf):
             shutil.copyfile(GOLDEN, dest)
@@ -87,7 +87,7 @@ def test_failed_rerun_blocks_handoff_and_preserves_previous_delivery(job, failur
     previous_sheet = sheet.read_bytes()
     state.update(failure=failure, side=300 if failure == "dfm" else 30)
     expected = {"model": pipeline.PipelineError, "dfm": (DfmError, pipeline.PipelineError),
-                "slice": StudioError}[failure]
+                "slice": OrcaError}[failure]
     with pytest.raises(expected) as error:
         run()
     with pytest.raises(HandoffError):

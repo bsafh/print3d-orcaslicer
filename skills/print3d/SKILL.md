@@ -1,6 +1,6 @@
 ---
 name: print3d
-description: Model a part in Blender from an idea, a photo of an object, or the shop listing of something you would otherwise buy, slice it for the Bambu X2D, and iterate until it prints clean and matches the photo.
+description: Model a part in Blender from an idea, a photo of an object, or the shop listing of something you would otherwise buy, slice it for the Orca X2D, and iterate until it prints clean and matches the photo.
 argument-hint: "[what to make, a photo of the object, or a shop link]"
 disable-model-invocation: true
 ---
@@ -134,7 +134,7 @@ and the print sheet.
 
 ## The machine
 
-X2D, 0.4 mm nozzle, 256 × 256 × 260 mm bed, 0.20 mm layers, Bambu PLA Basic,
+X2D, 0.4 mm nozzle, 256 × 256 × 260 mm bed, 0.20 mm layers, Orca PLA Basic,
 textured PEI plate. **The pinned process has supports off** — that is why an
 overhang note is a real defect and not a setting to flip. Two nozzles: two
 colours print without a filament change.

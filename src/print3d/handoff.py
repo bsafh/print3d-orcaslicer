@@ -315,8 +315,8 @@ footer {{ margin-top:32px; color:var(--muted); font-size:12px; border-top:1px so
 <header>
   <div>
     <h1>{_esc(report["brief"]["prompt"])}</h1>
-    <p class="sub">{_esc(slug)} · {time.strftime("%Y-%m-%d")} · Bambu Lab X2D, 0.4 mm nozzle, 0.20 mm layers,
-    Bambu PLA Basic, textured PEI, supports off</p>
+    <p class="sub">{_esc(slug)} · {time.strftime("%Y-%m-%d")} · Orca Lab X2D, 0.4 mm nozzle, 0.20 mm layers,
+    Orca PLA Basic, textured PEI, supports off</p>
     {replaces}
   </div>
   <span class="badge">{'Ready to print' if ready else 'Needs work'}</span>
@@ -332,7 +332,7 @@ footer {{ margin-top:32px; color:var(--muted); font-size:12px; border-top:1px so
 {_section("Open notes", f"<ul>{notes}</ul>" if notes else "")}
 {_section("Plates", f'<div class="plates">{plate_cards}</div>')}
 {_section("Files", f"<ul>{file_list}</ul>")}
-<p class="sub">Open the <code>.3mf</code> in Bambu Studio to review and print. Each STL is one part in its print pose.</p>
+<p class="sub">Open the <code>.3mf</code> in OrcaSlicer to review and print. Each STL is one part in its print pose.</p>
 <footer>Made with print3d. Nothing here was sent to a printer.</footer>
 </main></body></html>
 """

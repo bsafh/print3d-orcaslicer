@@ -1,4 +1,4 @@
-"""Flatten Bambu Lab profile inheritance for the Studio CLI.
+"""Flatten Orca Lab profile inheritance for the Studio CLI.
 
 Studio's GUI resolves `inherits` and `include` at runtime. The CLI does not.
 `--load-settings` / `--load-filaments` need a full config (`from` = User).
@@ -16,9 +16,9 @@ ProfileKind = Literal["machine", "process", "filament"]
 META_SKIP = {"inherits", "include", "instantiation", "setting_id", "is_custom_defined"}
 NOZZLE_SUFFIX_RE = re.compile(r"\s+\d+\.\d+\s+nozzle.*$")
 
-DEFAULT_MACHINE = "Bambu Lab X2D 0.4 nozzle"
+DEFAULT_MACHINE = "Orca Lab X2D 0.4 nozzle"
 DEFAULT_PROCESS = "0.20mm Standard @BBL X2D"
-DEFAULT_FILAMENT = "Bambu PLA Basic @BBL X2D 0.4 nozzle"
+DEFAULT_FILAMENT = "Orca PLA Basic @BBL X2D 0.4 nozzle"
 DEFAULT_BED_TYPE = "Textured PEI Plate"
 
 
@@ -31,16 +31,16 @@ def detect_profiles_root(slicer_path: str | None = None) -> Path:
     env_root = os.environ.get("BAMBU_PROFILES_ROOT", "").strip()
     if env_root:
         candidates.append(Path(env_root).expanduser())
-    candidates.append(Path.home() / "Library/Application Support/BambuStudio/system")
+    candidates.append(Path.home() / "Library/Application Support/OrcaSlicer/system")
     if slicer_path:
         slicer = Path(slicer_path).resolve()
         candidates.append(slicer.parent.parent / "Resources" / "profiles")
-    candidates.append(Path("/Applications/BambuStudio.app/Contents/Resources/profiles"))
+    candidates.append(Path("/Applications/OrcaSlicer.app/Contents/Resources/profiles"))
     for candidate in candidates:
         if (candidate / "BBL" / "machine").is_dir():
             return candidate
     raise FlattenError(
-        "Could not find Bambu Lab profiles. Set BAMBU_PROFILES_ROOT or install Bambu Studio."
+        "Could not find Orca Lab profiles. Set BAMBU_PROFILES_ROOT or install OrcaSlicer."
     )
 
 

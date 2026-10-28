@@ -1,4 +1,4 @@
-"""Fix CLI-exported Bambu 3mf files so Studio File > Open can load them.
+"""Fix CLI-exported Orca 3mf files so Studio File > Open can load them.
 
 Studio CLI writes Metadata/model_settings.config with illegal XML
 (value=""quoted""). The GUI treats a parse failure as "no geometry data"
@@ -104,7 +104,7 @@ def _parses(xml: bytes | None) -> bool:
     return True
 
 
-def repair_bambu_3mf(path: Path) -> Path:
+def repair_orca_3mf(path: Path) -> Path:
     resolved = path.expanduser().resolve()
     if not resolved.is_file():
         raise RepairError(f"3mf does not exist: {resolved}")
@@ -129,8 +129,8 @@ def repair_bambu_3mf(path: Path) -> Path:
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
  <Relationship Target="/3D/3dmodel.model" Id="rel-1" Type="http://schemas.microsoft.com/3dmanufacturing/2013/01/3dmodel"/>
  <Relationship Target="/Auxiliaries/.thumbnails/thumbnail_3mf.png" Id="rel-2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/thumbnail"/>
- <Relationship Target="/Auxiliaries/.thumbnails/thumbnail_middle.png" Id="rel-4" Type="http://schemas.bambulab.com/package/2021/cover-thumbnail-middle"/>
- <Relationship Target="/Auxiliaries/.thumbnails/thumbnail_small.png" Id="rel-5" Type="http://schemas.bambulab.com/package/2021/cover-thumbnail-small"/>
+ <Relationship Target="/Auxiliaries/.thumbnails/thumbnail_middle.png" Id="rel-4" Type="http://schemas.orcalab.com/package/2021/cover-thumbnail-middle"/>
+ <Relationship Target="/Auxiliaries/.thumbnails/thumbnail_small.png" Id="rel-5" Type="http://schemas.orcalab.com/package/2021/cover-thumbnail-small"/>
 </Relationships>
 """.encode("utf-8")
 

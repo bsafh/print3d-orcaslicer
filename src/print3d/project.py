@@ -1,4 +1,4 @@
-"""Inspect a sliced Bambu .gcode.3mf project."""
+"""Inspect a sliced Orca .gcode.3mf project."""
 
 from __future__ import annotations
 
@@ -21,7 +21,7 @@ LAYER_RE = re.compile(r"total layer number:\s*(\d+)", re.IGNORECASE)
 
 
 class ProjectError(RuntimeError):
-    """Raised when a 3mf is not a sliced Bambu project."""
+    """Raised when a 3mf is not a sliced Orca project."""
 
 
 @dataclass(frozen=True)

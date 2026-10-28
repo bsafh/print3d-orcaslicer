@@ -9,7 +9,7 @@ from print3d.pipeline import run_job
 
 pytestmark = pytest.mark.skipif(
     os.environ.get("PRINT3D_STUDIO_IT") != "1",
-    reason="Set PRINT3D_STUDIO_IT=1 to run a live Blender model and Bambu Studio slice",
+    reason="Set PRINT3D_STUDIO_IT=1 to run a live Blender model and OrcaSlicer slice",
 )
 
 

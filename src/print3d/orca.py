@@ -1,4 +1,4 @@
-"""Bambu Studio CLI wrapper. Isolated --datadir, dry-run first."""
+"""OrcaSlicer CLI wrapper. Isolated --datadir, dry-run first."""
 
 from __future__ import annotations
 
@@ -10,11 +10,11 @@ from itertools import chain
 from pathlib import Path
 from typing import Any
 
-from print3d.repair_3mf import repair_bambu_3mf
-from print3d.windows import studio_locations
+from print3d.repair_3mf import repair_orca_3mf
+from print3d.windows import orca_locations
 
 
-class StudioError(RuntimeError):
+class OrcaError(RuntimeError):
     """Raised for Studio discovery or slice failures."""
 
 
@@ -39,25 +39,28 @@ class SliceRequest:
     assemble_list: Path | None = None
 
 
-def find_studio(search_path: str | None = None) -> Path:
-    env = os.environ.get("BAMBU_STUDIO_BIN", "").strip()
+def find_orca(search_path: str | None = None) -> Path:
+    env = os.environ.get("ORCA_SLICER_BIN", "").strip()
     candidates: list[str | Path] = []
     if env:
         candidates.append(env)
-    which = shutil.which("bambu-studio", path=search_path)
+    which = shutil.which("orca-slicer", path=search_path)
     if which:
         candidates.append(which)
     candidates.extend(
         [
-            "/opt/homebrew/bin/bambu-studio",
-            "/Applications/BambuStudio.app/Contents/MacOS/BambuStudio",
+            "/opt/homebrew/bin/orca-slicer",
+            "/Applications/OrcaSlicer.app/Contents/MacOS/OrcaSlicer",
+            "/usr/bin/orca-slicer",
+            "/usr/local/bin/orca-slicer",
+            "/opt/orcaslicer/orca-slicer",
         ]
     )
-    for candidate in chain(candidates, studio_locations()):
+    for candidate in chain(candidates, orca_locations()):
         path = Path(candidate).expanduser()
         if path.is_file():
             return path.resolve()
-    raise StudioError("Bambu Studio CLI not found. Install Bambu Studio or set BAMBU_STUDIO_BIN.")
+    raise OrcaError("OrcaSlicer CLI not found. Install OrcaSlicer or set ORCA_SLICER_BIN.")
 
 
 def _common_prefix(studio: Path, request: SliceRequest) -> list[str]:
@@ -177,9 +180,9 @@ def slice_plan(request: SliceRequest, *, studio: Path | None = None) -> dict[str
     if binary is None:
         # A plan is only a preview; name the binary even when it is not installed.
         try:
-            binary = find_studio()
-        except StudioError:
-            binary = Path("bambu-studio")
+            binary = find_orca()
+        except OrcaError:
+            binary = Path("orca-slicer")
     return {
         "dry_run": True,
         "studio": str(binary),
@@ -187,7 +190,7 @@ def slice_plan(request: SliceRequest, *, studio: Path | None = None) -> dict[str
         "command": build_slice_command(binary, request),
         "request": _request_dict(request),
         "open_in_studio": str(project_3mf_path(request)),
-        "note": "Open the .3mf (not .gcode.3mf) in Bambu Studio File > Open. "
+        "note": "Open the .3mf (not .gcode.3mf) in OrcaSlicer File > Open. "
         ".gcode.3mf is a sliced print job and the Prepare tab reports no geometry.",
     }
 
@@ -198,12 +201,12 @@ def _run(command: list[str], timeout_s: float) -> subprocess.CompletedProcess[st
 
 def _require_file(path: Path, result: subprocess.CompletedProcess[str], label: str) -> None:
     if result.returncode != 0:
-        raise StudioError(
-            f"Bambu Studio {label} failed with exit {result.returncode}.\n"
+        raise OrcaError(
+            f"OrcaSlicer {label} failed with exit {result.returncode}.\n"
             f"stderr tail:\n{(result.stderr or result.stdout)[-4000:]}"
         )
     if not path.is_file():
-        raise StudioError(f"Studio {label} exited 0 but did not write {path}")
+        raise OrcaError(f"Studio {label} exited 0 but did not write {path}")
 
 
 def run_slice(
@@ -212,7 +215,7 @@ def run_slice(
     studio: Path | None = None,
     timeout_s: float = 180,
 ) -> dict[str, Any]:
-    binary = studio or find_studio()
+    binary = studio or find_orca()
     plan = slice_plan(request, studio=binary)
     plan["dry_run"] = False
     request.datadir.mkdir(parents=True, exist_ok=True)
@@ -226,10 +229,10 @@ def run_slice(
     _require_file(exported_project, project_result, "project export")
     if exported_project.resolve() != project.resolve():
         project.write_bytes(exported_project.read_bytes())
-    repair_bambu_3mf(project)
+    repair_orca_3mf(project)
 
     # Slice the STL, not the project 3mf. --load-settings on 3mf input has
-    # segfaulted Studio CLI (bambulab/BambuStudio#10402).
+    # segfaulted Studio CLI (orcalab/OrcaSlicer#10402).
     slice_cmd = build_slice_command(binary, request, input_path=request.input_mesh)
     plan["command"] = slice_cmd
     slice_result = _run(slice_cmd, timeout_s)
@@ -237,7 +240,7 @@ def run_slice(
     _require_file(exported, slice_result, "slice")
     if exported.resolve() != request.output_3mf.resolve():
         request.output_3mf.write_bytes(exported.read_bytes())
-    repair_bambu_3mf(request.output_3mf)
+    repair_orca_3mf(request.output_3mf)
 
     plan["returncode"] = slice_result.returncode
     plan["stdout"] = slice_result.stdout

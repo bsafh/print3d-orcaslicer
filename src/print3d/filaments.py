@@ -1,6 +1,6 @@
 """Coloured copies of the pinned filament, one per colour a job asks for.
 
-Colour is the only thing that changes: the material stays the pinned Bambu PLA
+Colour is the only thing that changes: the material stays the pinned Orca PLA
 Basic, so every check and the slice keep meaning the same thing. Studio puts
 the first two filaments on the X2D's two nozzles; a third or more is swapped in
 on one of them, with a purge per change.
@@ -12,7 +12,7 @@ import json
 import re
 from pathlib import Path
 
-# Bambu PLA Basic, as the colours are named on the spool.
+# Orca PLA Basic, as the colours are named on the spool.
 COLOURS = {
     "white": "#FFFFFF",
     "black": "#000000",

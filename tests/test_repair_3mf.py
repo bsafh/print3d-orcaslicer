@@ -2,7 +2,7 @@ from pathlib import Path
 from xml.etree import ElementTree as ET
 from zipfile import ZipFile
 
-from print3d.repair_3mf import is_well_formed_model_settings, repair_bambu_3mf
+from print3d.repair_3mf import is_well_formed_model_settings, repair_orca_3mf
 
 GOLDEN = Path(__file__).parent / "fixtures" / "cube_20mm.gcode.3mf"
 
@@ -11,7 +11,7 @@ def test_repair_makes_model_settings_parse(tmp_path: Path):
     copy = tmp_path / "cube.gcode.3mf"
     copy.write_bytes(GOLDEN.read_bytes())
     assert not is_well_formed_model_settings(copy)
-    repair_bambu_3mf(copy)
+    repair_orca_3mf(copy)
     assert is_well_formed_model_settings(copy)
     with ZipFile(copy) as archive:
         xml = archive.read("Metadata/model_settings.config")

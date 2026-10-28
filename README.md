@@ -2,7 +2,7 @@
 
 A [Hermes Agent](https://github.com/NousResearch/hermes-agent) plugin that turns
 an idea, a photo of an object, or the shop listing of something you would
-otherwise buy into a Bambu Studio project for a **Bambu Lab X2D (0.4 mm
+otherwise buy into a OrcaSlicer project for a **Orca Lab X2D (0.4 mm
 nozzle)**. One part or several, in one colour or two, with fits measured against
 your own printer, a 3D view to turn the result around in, and a print sheet to
 hand on. It also works with Claude Code, Codex, Cursor and Gemini CLI.
@@ -15,7 +15,7 @@ measured with evidence, modelled, checked against the photo, sliced.
 [the benchmark](#benchmark-a-clothes-peg-from-a-museum-photo).*
 
 The agent writes a Blender script that builds the part. print3d runs it, checks
-the mesh, slices it with Bambu Studio, and tells the agent what to fix. The
+the mesh, slices it with OrcaSlicer, and tells the agent what to fix. The
 agent repeats until every check passes, then hands you the `.3mf` to open in
 Studio and print from there.
 
@@ -30,7 +30,7 @@ Nothing here talks to the printer.
 ## Install in Hermes
 
 You need [Blender](https://www.blender.org/download/) 4.2+,
-[Bambu Studio](https://bambulab.com/en/download/studio) and
+[OrcaSlicer](https://orcalab.com/en/download/studio) and
 [uv](https://docs.astral.sh/uv/) on the same machine as Hermes. Then:
 
 ```bash
@@ -53,11 +53,11 @@ itself, so there is no Hermes config to edit.
 Start a new session afterwards. `hermes plugins update print3d` updates both;
 `hermes plugins remove print3d` removes both.
 
-Explicit `BLENDER_BIN` and `BAMBU_STUDIO_BIN` paths take precedence, followed by
+Explicit `BLENDER_BIN` and `ORCA_SLICER_BIN` paths take precedence, followed by
 executables on `PATH`. On macOS, Blender and Studio are also found in
 `/Applications`. On Windows, print3d checks the Program Files directories for
 `Blender Foundation/Blender <version>/blender.exe` and
-`Bambu Studio/bambu-studio.exe`, preferring newer Blender version folders within
+`OrcaSlicer/orca-slicer.exe`, preferring newer Blender version folders within
 each directory. Custom and portable installations can use the environment
 variables above. Jobs go to `~/print3d/jobs`, or `$PRINT3D_JOBS`.
 
@@ -103,7 +103,7 @@ for a hand-off and you also get a [print sheet](#hand-it-off).
 ## What it runs and reaches
 
 - **Local programs:** Blender, to run the model scripts the agent writes and to
-  render, and Bambu Studio's command line, to slice. Both run as child processes
+  render, and OrcaSlicer's command line, to slice. Both run as child processes
   on your machine, headless. A model script is Python: Blender runs it with your
   user's permissions, outside Hermes's terminal sandbox. The plugin marks its
   server untrusted, so Hermes asks before any tool that runs a script or writes

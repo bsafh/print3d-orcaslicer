@@ -1,7 +1,7 @@
 """Render the listing-to-print workflow as stills, an MP4 and a GIF, from real runs.
 
 Replays the shelf bracket benchmark (tests/fixtures/bracket.*) through the actual
-pipeline, as scripts/workflow_media.py does for the peg. Needs Blender, Bambu
+pipeline, as scripts/workflow_media.py does for the peg. Needs Blender, Orca
 Studio and ffmpeg.
 
     .venv/bin/python scripts/listing_media.py         # writes docs/listing*
@@ -183,7 +183,7 @@ def build_frames(report: dict, job: Path, turn: list[Path]) -> list[list[Image.I
 
     # 8. Slice.
     m = report["slice_metrics"]
-    canvas, draw = frame(8, total, "Sliced for the Bambu X2D", "Printed on its side, no supports. Open the .3mf in Bambu Studio and print.")
+    canvas, draw = frame(8, total, "Sliced for the Orca X2D", "Printed on its side, no supports. Open the .3mf in OrcaSlicer and print.")
     paste(canvas, open_upright(Path(report["plate_png"])), (48, HEAD + 16, 640, H - 56))
     stats = [(f"{m['layer_count']}", "layers"), (m["estimated_time"], "print time"), (f"{m['filament_g']:.1f} g", "PLA")]
     y = 230

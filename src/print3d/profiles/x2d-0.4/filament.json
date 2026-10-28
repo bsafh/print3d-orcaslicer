@@ -1,6 +1,6 @@
 {
   "type": "filament",
-  "name": "Bambu PLA Basic @BBL X2D 0.4 nozzle",
+  "name": "Orca PLA Basic @BBL X2D 0.4 nozzle",
   "from": "User",
   "activate_air_filtration": [
     "0"
@@ -330,7 +330,7 @@
     "none"
   ],
   "filament_settings_id": [
-    "Bambu PLA Basic @BBL X2D 0.4 nozzle"
+    "Orca PLA Basic @BBL X2D 0.4 nozzle"
   ],
   "filament_shrink": [
     "100%"
@@ -342,7 +342,7 @@
     "PLA"
   ],
   "filament_vendor": [
-    "Bambu Lab"
+    "Orca Lab"
   ],
   "filament_wipe": [
     "nil",
@@ -601,7 +601,7 @@
     "0 0 0 0 0 0"
   ],
   "compatible_printers": [
-    "Bambu Lab X2D 0.4 nozzle"
+    "Orca Lab X2D 0.4 nozzle"
   ],
   "filament_start_gcode": [
     "; filament start gcode\n"
@@ -609,7 +609,7 @@
   "filament_end_gcode": [
     "; filament end gcode \n\n"
   ],
-  "inherits": "Bambu PLA Basic @BBL X2D 0.4 nozzle",
+  "inherits": "Orca PLA Basic @BBL X2D 0.4 nozzle",
   "filament_adhesiveness_category": [
     "100"
   ],

@@ -10,7 +10,7 @@ from print3d import blender, studio, windows
 def windows_env(tmp_path, monkeypatch):
     monkeypatch.setattr(windows, "sys", SimpleNamespace(platform="win32"))
     for name in ("ProgramW6432", "ProgramFiles", "ProgramFiles(x86)",
-                 "BLENDER_BIN", "BAMBU_STUDIO_BIN"):
+                 "BLENDER_BIN", "ORCA_SLICER_BIN"):
         monkeypatch.delenv(name, raising=False)
     monkeypatch.setattr(blender, "BLENDER_LOCATIONS", ())
     monkeypatch.setattr(blender.shutil, "which", lambda *a, **kw: None)
@@ -28,8 +28,8 @@ def executable(path: Path) -> Path:
 APPS = [
     (blender.find_blender, blender.BlenderError, "BLENDER_BIN",
      "Blender Foundation/Blender 4.2/blender.exe"),
-    (studio.find_studio, studio.StudioError, "BAMBU_STUDIO_BIN",
-     "Bambu Studio/bambu-studio.exe"),
+    (studio.find_orca, studio.OrcaError, "ORCA_SLICER_BIN",
+     "OrcaSlicer/orca-slicer.exe"),
 ]
 
 

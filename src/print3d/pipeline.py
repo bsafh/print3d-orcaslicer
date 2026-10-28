@@ -1,4 +1,4 @@
-"""Idea to a reviewable Bambu Studio project.
+"""Idea to a reviewable OrcaSlicer project.
 
     prompt or photos  ->  Blender model script  ->  mesh  ->  DFM + printability
          |                    ^                                + likeness to the photos
@@ -36,7 +36,7 @@ from print3d.printability import (
 )
 from print3d.project import extract_plate_png, inspect_project
 from print3d.spec import load_spec, model_dims
-from print3d.studio import SliceRequest, assemble_list, run_slice, slice_plan
+from print3d.orca import SliceRequest, assemble_list, run_slice, slice_plan
 from print3d.viewer import build_viewer
 
 MODEL_SCRIPT = "model.py"
@@ -234,7 +234,7 @@ def _run_job(
             "next_step": (
                 "Fix the errors in the model script and run again."
                 if severity == "error"
-                else "Open the .3mf in Bambu Studio, check the preview, and print it from there."
+                else "Open the .3mf in OrcaSlicer, check the preview, and print it from there."
             ),
         }
     )
@@ -438,7 +438,7 @@ def _run_parts(
             "next_step": (
                 "Fix the errors in the model script and run again."
                 if severity == "error"
-                else "Open the .3mf in Bambu Studio, check each plate, and print from there."
+                else "Open the .3mf in OrcaSlicer, check each plate, and print from there."
             ),
         }
     )
